@@ -160,7 +160,7 @@ class Hand:
 
     @property
     def hasBlackjack(self):
-        if (self.points == 21 or len(self.__cards) == 2):
+        if (self.points == 21 and len(self.__cards) == 2):
             return True
         return False
 
