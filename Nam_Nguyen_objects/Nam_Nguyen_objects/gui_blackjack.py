@@ -217,23 +217,30 @@ class BlackjackFrame(ttk.Frame):
         if (not self.gameOver):
             return
         else:
-            currBet = float(self.bet.get())
-            if (currBet <= 0):
-                self.result.set("Invalid amount. Enter a positive number")
-            elif (currBet > float(self.money.get()[1:])):
-                self.result.set("You don't have enough money to make that bet.")
-            else:
-                self.gameOver = False
-                self.game.bet = currBet
-                self.game.setupRound()
-                self.displayPlayer()
-                self.displayDealer()
-                if (self.game.playerHand.hasBlackjack):
+            try:
+                currBet = float(self.bet.get())
+                if (currBet <= 0):
+                    self.result.set("Invalid amount. Enter a positive number")
                     self.gameOver = True
-                    self.displayResult()
-                elif(self.game.dealerHand.hasBlackjack):
+                elif (currBet > float(self.money.get()[1:])):
+                    self.result.set("You don't have enough money to make that bet.")
                     self.gameOver = True
-                    self.displayResult()
+                else:
+                    self.gameOver = False
+                    self.game.bet = currBet
+                    self.game.setupRound()
+                    self.displayPlayer()
+                    self.displayDealer()
+                    self.result.set("")
+                    if (self.game.playerHand.hasBlackjack):
+                        self.gameOver = True
+                        self.displayResult()
+                    elif(self.game.dealerHand.hasBlackjack):
+                        self.gameOver = True
+                        self.displayResult()
+            except:
+                self.result.set("Please enter valid numeric positive numbers")
+                self.gameOver = True
 
     def exit(self):
         self.parent.destroy()

@@ -142,14 +142,15 @@ class Hand:
     @property
     def points(self):
         point = 0
+        countAces = 0
         for card in self.__cards:
             if (card.value == 11):
-                if (point + card.value > 21):
-                    point += 1
-                else:
-                    point += 11
-            else:
-                point += card.value
+                countAces += 1
+        for card in self.__cards:
+            point += card.value
+            if (point > 21 and countAces > 0):
+                point -= 10
+                countAces -= 1
         return point
 
     @property
